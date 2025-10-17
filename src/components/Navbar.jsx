@@ -41,7 +41,7 @@ export default function Navbar() {
                             whileHover={{ scale: 1.05 }}
                             className="text-2xl font-bold bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent"
                         >
-                            JJC
+                            JICHANG JEON
                         </motion.div>
                     </Link>
 

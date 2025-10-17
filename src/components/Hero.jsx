@@ -60,9 +60,12 @@ export default function Hero() {
                 animate="visible"
                 className="relative z-10 max-w-4xl mx-auto px-4 text-center"
             >
-                <motion.div variants={itemVariants} className="mb-4">
-                    <span className="text-blue-500 text-sm font-mono">안녕하세요,</span>
-                </motion.div>
+                <motion.p
+                    variants={itemVariants}
+                    className="text-xl md:text-2xl text-gray-400 mb-4"
+                >
+                    2년차 프론트엔드 개발자
+                </motion.p>
 
                 <motion.h1
                     variants={itemVariants}
@@ -74,19 +77,13 @@ export default function Hero() {
                     입니다
                 </motion.h1>
 
-                <motion.p
-                    variants={itemVariants}
-                    className="text-xl md:text-2xl text-gray-400 mb-4"
-                >
-                    2년차 프론트엔드 개발자
-                </motion.p>
 
                 <motion.p
                     variants={itemVariants}
                     className="text-lg text-gray-500 mb-8 max-w-2xl mx-auto"
                 >
                     사용자 경험과 성능 최적화에 집중하며,
-                    <br />
+                    <br/>
                     테스트 주도 개발과 품질에 책임감을 가진 개발자입니다
                 </motion.p>
 
@@ -95,26 +92,26 @@ export default function Hero() {
                     className="flex items-center justify-center gap-4 mb-12"
                 >
                     <a
-                        href="https://github.com/yourusername"
+                        href="https://github.com/jcjee6276"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="p-3 bg-dark-card hover:bg-gray-800 rounded-full transition-colors duration-200"
                     >
-                        <Github size={24} />
+                        <Github size={24}/>
                     </a>
                     <a
-                        href="https://linkedin.com/in/yourusername"
+                        href="https://linkedin.com/in/지창-전-2b4440294/"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="p-3 bg-dark-card hover:bg-gray-800 rounded-full transition-colors duration-200"
                     >
-                        <Linkedin size={24} />
+                        <Linkedin size={24}/>
                     </a>
                     <a
                         href="mailto:your.email@example.com"
                         className="p-3 bg-dark-card hover:bg-gray-800 rounded-full transition-colors duration-200"
                     >
-                        <Mail size={24} />
+                        <Mail size={24}/>
                     </a>
                 </motion.div>
 
@@ -126,15 +123,15 @@ export default function Hero() {
                         className="inline-flex items-center gap-2 px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full cursor-pointer hover:scale-105 transition-transform duration-200"
                     >
                         더 알아보기
-                        <ChevronDown size={20} />
+                        <ChevronDown size={20}/>
                     </Link>
                 </motion.div>
             </motion.div>
 
             {/* Scroll indicator */}
             <motion.div
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
+                animate={{y: [0, 10, 0]}}
+                transition={{duration: 2, repeat: Infinity}}
                 className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
             >
                 <ChevronDown className="text-gray-600" size={32} />
