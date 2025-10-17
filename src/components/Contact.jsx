@@ -8,7 +8,7 @@ const contactInfo = [
         icon: <Mail size={24} />,
         label: 'Email',
         value: 'lifemeans@naver.com',
-        link: 'lifemeans@naver.com',
+        link: '',
     },
     {
         icon: <Github size={24} />,
@@ -24,9 +24,9 @@ const contactInfo = [
     },
     {
         icon: <Phone size={24} />,
-        label: 'Phone',
-        value: '010-3512-6276',
-        link: 'tel:01035126276',
+        label: 'KakaoTalk Open Profile',
+        value: '지창',
+        link: 'https://open.kakao.com/o/sG8O2sWe',
     },
 ]
 
@@ -78,17 +78,15 @@ export default function Contact() {
                         transition={{ duration: 0.6, delay: 0.6 }}
                         className="text-center p-8 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/30 rounded-2xl"
                     >
-                        <h3 className="text-2xl font-bold mb-4">함께 일하고 싶으신가요?</h3>
+                        <h3 className="text-2xl font-bold mb-4">저에 대해서 궁금하신가요?</h3>
                         <p className="text-gray-400 mb-6">
-                            새로운 프로젝트나 협업 기회에 대해 이야기 나누고 싶습니다.
-                            <br />
                             언제든 편하게 연락주세요!
                         </p>
                         <a
-                            href="mailto:your.email@example.com"
+                            href="https://open.kakao.com/o/sG8O2sWe"
                             className="inline-block px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full hover:scale-105 transition-transform duration-200 font-semibold"
                         >
-                            이메일 보내기
+                            오픈 채팅방 입장하기
                         </a>
                     </motion.div>
 
