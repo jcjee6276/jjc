@@ -6,37 +6,24 @@ const skillCategories = [
     {
         category: 'Frontend',
         skills: [
-            { name: 'React', level: 85 },
-            { name: 'TypeScript', level: 75 },
-            { name: 'JavaScript', level: 90 },
-            { name: 'HTML/CSS', level: 85 },
-            { name: 'Tailwind CSS', level: 80 },
+            { name: 'React' },
+            { name: 'TypeScript' },
+            { name: 'JavaScript' },
+            { name: 'HTML/CSS' },
+            { name: 'Tailwind CSS' },
+            { name: 'Redux' },
+            { name: 'Zustand' },
+            { name: 'React Query' },
+            { name: 'FSD Architecture' },
         ],
     },
     {
         category: 'Testing',
         skills: [
-            { name: 'Jest', level: 70 },
+            { name: 'Vitest', level: 70 },
             { name: 'React Testing Library', level: 65 },
-            { name: 'E2E Testing', level: 60 },
-            { name: 'TDD', level: 65 },
-        ],
-    },
-    {
-        category: 'Backend & Tools',
-        skills: [
-            { name: 'Node.js', level: 70 },
-            { name: 'Git', level: 85 },
-            { name: 'Windows API', level: 65 },
-            { name: 'System Optimization', level: 75 },
-        ],
-    },
-    {
-        category: 'Learning',
-        skills: [
-            { name: 'Functional Programming', level: 60 },
-            { name: 'Performance Optimization', level: 80 },
-            { name: 'CI/CD', level: 55 },
+            { name: 'play wright', level: 60 },
+            { name: 'Mock Service Worker', level: 65 },
         ],
     },
 ]
@@ -74,21 +61,21 @@ export default function Skills() {
                                     {category.category}
                                 </h3>
 
-                                <div className="space-y-4">
+                                <div className="flex flex-wrap gap-2">
                                     {category.skills.map((skill, skillIndex) => (
-                                        <div key={skillIndex}>
-                                            <div className="flex justify-between items-center mb-2">
-                                                <span className="text-gray-300">{skill.name}</span>
-                                                <span className="text-sm text-gray-500">{skill.level}%</span>
+                                        <div className="inline-flex gap-2" >
+                                            <div key={skillIndex} className="inline-flex gap-2 justify-between items-center">
+                                                <span className="text-gray-300 px-5 py-1 text-sm bg-gradient-to-r from-blue-500 to-purple-400 rounded-full">{skill.name}</span>
+                                                {/*<span className="text-sm text-gray-500">{skill.level}%</span>*/}
                                             </div>
-                                            <div className="h-2 bg-dark-bg rounded-full overflow-hidden">
-                                                <motion.div
-                                                    initial={{ width: 0 }}
-                                                    animate={isInView ? { width: `${skill.level}%` } : { width: 0 }}
-                                                    transition={{ duration: 1, delay: catIndex * 0.1 + skillIndex * 0.05 }}
-                                                    className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"
-                                                />
-                                            </div>
+                                            {/*<div className="h-2 bg-dark-bg rounded-full overflow-hidden">*/}
+                                            {/*    <motion.div*/}
+                                            {/*        initial={{ width: 0 }}*/}
+                                            {/*        animate={isInView ? { width: `${skill.level}%` } : { width: 0 }}*/}
+                                            {/*        transition={{ duration: 1, delay: catIndex * 0.1 + skillIndex * 0.05 }}*/}
+                                            {/*        className="h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"*/}
+                                            {/*    />*/}
+                                            {/*</div>*/}
                                         </div>
                                     ))}
                                 </div>
@@ -103,9 +90,9 @@ export default function Skills() {
                         transition={{ duration: 0.6, delay: 0.6 }}
                         className="mt-12 p-6 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/30 rounded-xl"
                     >
-                        <h3 className="text-lg font-bold mb-3 text-center">현재 학습 중</h3>
+                        <h3 className="text-lg font-bold mb-3 text-center">관심 분야</h3>
                         <p className="text-gray-400 text-center">
-                            테스트 주도 개발(TDD), 함수형 프로그래밍, E2E 테스트, 테스트 케이스 Generator
+                            테스트 주도 개발(TDD), 함수형 프로그래밍, AI를 이용한 테스트 및 문서화 Code Generator
                         </p>
                     </motion.div>
                 </motion.div>
