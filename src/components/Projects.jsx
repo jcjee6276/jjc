@@ -5,14 +5,17 @@ import { TrendingDown, Clock, X } from 'lucide-react'
 
 const projects = [
     {
-        title: '아워홈 물류 키오스크',
-        period: '2025.07 ~ 2025.09',
+        title: '물류 키오스크',
+        period: '2025.07 ~ 2025.08',
         description: '물류 센터 프로세스 처리 키오스크 개발',
-        challenge: '물류 센터 업무를 처리하는 키오스크로 첫 리딩을 맡아 진행 했으며 ' +
-            'storybook, vitest를 첫 도입하여 기능 및 UI 수정 시 유지보수 비용을 향상시켰습니다.',
+        challenge: '물류 센터 업무를 처리하는 키오스크로 첫 리딩을 맡아 진행 했으며\n' +
+            '바코드 스캔(USB, Serial)으로 업무 프로세스 처리\n' +
+            '각 물류 센터별 환경 설정\n' +
+            '관리자 페이지\n' +
+            '프린터 연동과 같은 기능을 개발 했습니다.',
         solution: [
             '전체 파이프라인 재설계: Canvas → Image → PDF → Spool 방식 폐기',
-            '서버에서 HTML 템플릿 사전 로딩, React는 데이터만 전송',
+            'Kotlin 서버에서 HTML 템플릿 생성 후 사전 로딩, React는 데이터만 전송하는 로직 작성',
             'PDF를 PCL 형식으로 변환하여 프린터 처리 속도 향상',
             'Java print library 대신 winspool.drv 직접 호출',
             '윈도우 스풀러 우회하여 프린터 직접 전송',
@@ -307,7 +310,7 @@ function ProjectCard({ project, index, isInView, onOpenModal  }) {
                     {/* Challenge */}
                     <div className="mb-6">
                         <h4 className="text-lg font-semibold text-red-400 mb-2">프로젝트 내용</h4>
-                        <p className="text-gray-400 leading-relaxed">{project.challenge}</p>
+                        <p className="text-gray-400 leading-relaxed whitespace-pre-wrap">{project.challenge}</p>
                     </div>
 
                     {/* Tech Stack */}
@@ -326,16 +329,6 @@ function ProjectCard({ project, index, isInView, onOpenModal  }) {
                     </div>
                 </div>
             </motion.div>
-
-            {/* Modal */}
-            {/*<AnimatePresence>*/}
-            {/*    {showModal && (*/}
-            {/*        <ProjectModal*/}
-            {/*            project={project[index]}*/}
-            {/*            onClose={() => setShowModal(false)}*/}
-            {/*        />*/}
-            {/*    )}*/}
-            {/*</AnimatePresence>*/}
         </>
     )
 }
