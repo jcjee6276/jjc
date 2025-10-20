@@ -1,29 +1,89 @@
-import { motion } from 'framer-motion'
+import {AnimatePresence, motion} from 'framer-motion'
 import { useInView } from 'framer-motion'
-import { useRef } from 'react'
-import { Code, Zap, Target } from 'lucide-react'
+import {useRef, useState} from 'react'
+import {Code, Zap, Target, X} from 'lucide-react'
 
 const features = [
     {
         icon: <Code size={24} />,
         title: '성능 최적화',
-        description: '프린터 출력 속도 70% 개선 등 사용자 경험 향상에 집중합니다',
+        description: 'UI/Logic 분리, Vite 번들러 도입',
+        detail: true,
+        details: [
+            {
+                subtitle: "Container/Presentation + Compound 패턴 도입으로 UI/Logic 분리",
+                content: "React Query Custom Hook으로 데이터 로직을 캡슐화하고 Container/Presentation 패턴으로 비즈니스 로직과 UI 분리\n" +
+                    "Presentation 컴포넌트는 Compound 패턴으로 설계하여 서브 컴포넌트를 자유롭게 조합할 수 있도록 구현\n" +
+                    "Named Export를 통해 IDE의 자동완성과 타입 추론을 강화하고, 각 Presentation 컴포넌트를 독립적으로 Storybook 문서화\n",
+                result: "· 컴포넌트 재 사용률 향상, Storybook 스토리 작성 시간 단축 및 러닝 커브 완화"
+            },
+            {
+                subtitle: "Webpack → Vite 마이그레이션으로 개발 생산성 향상",
+                content: "기존 Webpack 번들러의 느린 빌드 속도로 인한 개발 병목을 해결하기 위해 Vite로 마이그레이션\n " +
+                    "Vite의 ESM 기반 개발 서버와 esbuild를 활용한 사전 번들링으로 개발 환경 구동 시간을 대폭 단축",
+                result: "· 프로덕션 빌드 시간 30초 → 5초 이내로 개선, HMR(Hot Module Replacement) 속도 2초 → 0.2초로 개발 경험 향상"
+            }
+        ]
     },
     {
         icon: <Zap size={24} />,
         title: '문제 해결',
-        description: '근본 원인을 파고들어 창의적인 해결책을 찾아냅니다',
+        description: '근본 원인을 파고 들어 해결책을 찾아냅니다',
+        detail: true,
+        problem: true,
+        details: [
+            {
+                subtitle: '키오스크 프린터 출력물 속도 개선',
+                content: '프로젝트 오픈 직전, 고객사로부터 "프린터 출력 속도가 개선되지 않으면 전국 센터 오픈 불가" 통보를 받았습니다.' +
+                    '기존 출력 시간은 16~20초로, 고객사 요구사항인 6~8초에 크게 미달하는 상황이었습니다.\n\n' +
+                    '[기존 시도] 사내 미드급 서버 개발자와 시니어 과장님이 2주간 14가지 방법으로 개선을 시도했으나 10~12초까지만 단축되었고,' +
+                    '그 마저도 CSS 최소화, 폰트 제거 등 출력물 디자인 변경이 불가피한 상황이었습니다. ' +
+                    '내부 회의에서 하드웨어 스펙업(비용 증가)으로 방향이 정해지고 있었습니다.\n\n' +
+                    '하지만 비용 증가 없이 문제를 해결하고자 업무 시간 외에도 문제를 분석하여 출력물 변경 없이 고객사 요구사항에 맞게' +
+                    '출력물 속도를 개선하여 프로젝트를 마무리 지었습니다.',
+                result: '비용을 정산 받으며 프로젝트 마무리, 이후 운영상 기능 장애 없이 안정적인 운영'
+
+            },
+            {
+                subtitle: '통합 테스트 날에 전반적인 프로세스 수정',
+                content: '통합 테스트 첫날, 고객사 내부 회의로 전반적인 프로세스가 변경되면서 ' +
+                    '대규모 로직 및 UI 수정이 필요한 상황 발생.\n ' +
+                    '78개 테스트 케이스 중 18개만 통과한 좋지 않은 상황이었습니다. 고객사에 상주하며\n\n' +
+                    '1일차: 78건 중 18건 PASS (23%)\n' +
+                        '2일차: 79건 중 45건 PASS (57%)\n' +
+                    '3일차: 80건 중 70건 PASS (88%)\n' +
+                    '4일차: 80건 중 78건 PASS (98%)\n\n' +
+
+                '이후 간헐적인 요구사항 변경에도 지속적인 커뮤니케이션과 빠른 대응으로 ' +
+                    '예정된 오픈 일정에 맞춰 프로젝트 완료했습니다.',
+                result: '4일 만에 테스트 통과율 23% → 98% 달성.'
+            }
+        ]
     },
     {
         icon: <Target size={24} />,
         title: '품질 책임',
-        description: 'TDD와 E2E 테스트를 통해 안정적인 코드를 작성합니다',
+        description: '테스트 코드 작성 및 프로젝트 문서화 적용',
+        detail: true,
+        details: [
+            {
+                subtitle: 'Vitest, Storybook 도입',
+                content: 'Vitest로 테스트 기반 코드 작성하고 UI 문서화를 위해 Storybook 적용',
+                result: '테스트 기반 코드로 기능의 안정성과 UI 문서화를 통해 팀원간 공통 컴포넌트 공유 용이'
+            }
+        ]
     },
 ]
+
+
 
 export default function About() {
     const ref = useRef(null)
     const isInView = useInView(ref, { once: true, margin: "-100px" })
+    const [isHovering, setIsHovering] = useState(null)
+    const [activeModal, setActiveModal] = useState(null)
+
+
 
     return (
         <section id="about" className="min-h-screen flex items-center py-20 px-4">
@@ -82,18 +142,135 @@ export default function About() {
                             <motion.div
                                 key={index}
                                 initial={{ opacity: 0, y: 30 }}
+                                onClick={() => setActiveModal(index)}
+                                onMouseEnter={() => setIsHovering(index)}
+                                onMouseLeave={() => setIsHovering(null)}
                                 animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
                                 transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
-                                className="p-6 bg-dark-card border border-dark-border rounded-xl hover:border-blue-500/50 transition-all duration-300"
+                                className="relative p-6 bg-dark-card border border-dark-border rounded-xl hover:border-blue-500/50 transition-all duration-300 overflow-hidden"
                             >
+                                {feature.detail && isHovering === index && (
+                                    <motion.div
+                                        initial={{opacity: 0}}
+                                        animate={{opacity: 1}}
+                                        className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-purple-500/20 flex items-center justify-center rounded-xl"
+                                    >
+                                        <div className="text-center">
+                                            <div className="text-white text-lg font-semibold mb-2">상세 내용 보기</div>
+                                        </div>
+                                    </motion.div>
+                                )}
                                 <div className="text-blue-500 mb-4">{feature.icon}</div>
                                 <h4 className="text-xl font-bold mb-2">{feature.title}</h4>
                                 <p className="text-gray-400 text-sm">{feature.description}</p>
                             </motion.div>
+                                ))}
+                            </div>
+                            </motion.div>
+                            </div>
+            <AnimatePresence>
+                {activeModal !== null && (
+                    <AboutModal
+                        feature={features[activeModal]}
+                        onClose={()=> setActiveModal(null)}
+                    />
+                )}
+            </AnimatePresence>
+                        </section>
+    )
+}
+
+function AboutModal({feature, onClose}) {
+    return (
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+        >
+            <motion.div
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.9, opacity: 0 }}
+                onClick={(e) => e.stopPropagation()}
+                className="bg-dark-card border border-dark-border rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+            >
+                {/* Header */}
+                <div className="sticky top-0 bg-dark-card border-b border-dark-border p-6 flex items-center justify-between z-10">
+                    <h3 className="text-2xl font-bold">{feature.title}</h3>
+                    <button
+                        onClick={onClose}
+                        className="p-2 hover:bg-dark-bg rounded-full transition-colors"
+                    >
+                        <X size={24} />
+                    </button>
+                </div>
+
+                {/* Content */}
+                <div className="p-6 space-y-6">
+
+                    {/* Challenge */}
+                    {feature.problem && (
+                        <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+                            <h4 className="text-lg font-semibold text-red-400 mb-2">⚠️ 문제 상황</h4>
+
+                    {feature.details.map((item, index) => (
+                        <p className="text-gray-300">· {item.subtitle}</p>
                         ))}
+                        </div>
+
+                )}
+
+
+                    {/* Technical Deep Dive */}
+                    {!feature.problem && (
+                        <div>
+                            <h4 className="text-lg font-semibold text-purple-400 mb-3">기술적 내용</h4>
+                            <ul className="space-y-3">
+                                {feature.details.map((item, i) => (
+                                    <li key={i} className="flex items-start gap-3 text-gray-400">
+                                        <span className="text-purple-500 mt-1 font-bold">{i + 1}.</span>
+                                        <span>{item.subtitle}</span>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+
+
+                    {/* Solution */}
+                    <div>
+                        <h4 className="text-lg font-semibold text-blue-400 mb-3">상세 내용</h4>
+                        <ul className="space-y-2">
+                            {feature.details.map((item, i) => (
+                                <li key={i} className="flex items-start gap-2 text-gray-400">
+                                    <span className="text-blue-500 mt-1">→</span>
+                                    <span className="whitespace-pre-wrap">{item.content}</span>
+                                </li>
+                            ))}
+                        </ul>
                     </div>
-                </motion.div>
-            </div>
-        </section>
+
+                     {/*Impact*/}
+                    <div className="p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
+                        <h4 className="text-lg font-semibold text-green-400 mb-2 ">📊 결과</h4>
+                        {/*<p className="text-gray-300 mb-3 whitespace-pre-wrap">{project.detailContent.impact}</p>*/}
+                        <div className="grid grid-cols-1 gap-4">
+                            {feature.details.map((metric, i) => (
+                                <div key={i} className="flex items-center gap-3">
+                                    {/*<div className="text-green-500">{metric.icon}</div>*/}
+                                    <div>
+                                        <div className="text-xl font-bold text-green-400">{metric.result}</div>
+                                        {/*<div className="text-sm text-gray-400">{metric.title}</div>*/}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+
+                </div>
+            </motion.div>
+        </motion.div>
     )
 }
