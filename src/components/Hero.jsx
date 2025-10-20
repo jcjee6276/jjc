@@ -107,12 +107,6 @@ export default function Hero() {
                     >
                         <Linkedin size={24}/>
                     </a>
-                    <a
-                        href="mailto:your.email@example.com"
-                        className="p-3 bg-dark-card hover:bg-gray-800 rounded-full transition-colors duration-200"
-                    >
-                        <Mail size={24}/>
-                    </a>
                 </motion.div>
 
                 <motion.div variants={itemVariants}>
