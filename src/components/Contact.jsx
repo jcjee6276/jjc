@@ -78,7 +78,7 @@ export default function Contact() {
                         transition={{ duration: 0.6, delay: 0.6 }}
                         className="text-center p-8 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/30 rounded-2xl"
                     >
-                        <h3 className="text-2xl font-bold mb-4">저에 대해서 궁금하신가요?</h3>
+                        <h3 className="text-2xl font-bold mb-4">함께 일해요!</h3>
                         <p className="text-gray-400 mb-6">
                             언제든 편하게 연락주세요!
                         </p>
