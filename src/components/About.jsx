@@ -1,6 +1,6 @@
 import {AnimatePresence, motion} from 'framer-motion'
 import { useInView } from 'framer-motion'
-import {useRef, useState} from 'react'
+import {useEffect, useRef, useState} from 'react'
 import {Code, Zap, Target, X} from 'lucide-react'
 
 const features = [
@@ -84,6 +84,14 @@ export default function About() {
     const [activeModal, setActiveModal] = useState(null)
 
 
+    useEffect(() => {
+        if(activeModal !== null) {
+            document.body.style.overflow = 'hidden';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        }
+    }, [activeModal]);
 
     return (
         <section id="about" className="min-h-screen flex items-center py-20 px-4">

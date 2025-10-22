@@ -338,6 +338,15 @@ export default function Projects() {
     const isInView = useInView(ref, { once: true, margin: "-100px" })
     const [activeModal, setActiveModal] = useState(null)
 
+    useEffect(() => {
+        if(activeModal !== null) {
+            document.body.style.overflow = 'hidden';
+        }
+        return () => {
+            document.body.style.overflow = '';
+        }
+    }, [activeModal]);
+
     return (
         <section id="projects" className="min-h-screen flex items-center py-20 px-4">
             <div className="max-w-6xl mx-auto w-full">
