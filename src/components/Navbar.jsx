@@ -52,7 +52,7 @@ export default function Navbar() {
                                 key={item.to}
                                 to={item.to}
                                 smooth
-                                duration={500}
+                                duration={0}
                                 spy
                                 activeClass="text-blue-500"
                                 className="text-gray-300 hover:text-white cursor-pointer transition-colors duration-200"
