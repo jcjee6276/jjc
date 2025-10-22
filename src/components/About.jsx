@@ -9,7 +9,8 @@ const features = [
         title: '성능 최적화',
         description: 'UI/Logic 분리, Vite 번들러 도입',
         detail: true,
-        link: '',
+        link: 'https://www.notion.so/29480a7066de80a086edcc1607917fab?source=copy_link',
+        linkName: '디자인 패턴 설계 회고',
         details: [
             {
                 subtitle: "UI/Logic 분리를 위해 Atomic Design + Data Fetching Layer 기반의 계층적 컴포넌트를 설계",
@@ -213,12 +214,41 @@ function AboutModal({feature, onClose}) {
             >
                 {/* Header */}
                 <div className="sticky top-0 bg-dark-card border-b border-dark-border p-6 flex items-center justify-between z-10">
-                    <h3 className="text-2xl font-bold">{feature.title}</h3>
+                    <div className='flex justify-between gap-4'>
+                        <h3 className="text-2xl font-bold">{feature.title}</h3>
+                        {feature.link && ( <a
+                            href={feature.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-2xl font-bold text-blue-600 inline-flex items-center gap-2 group relative"
+                        >
+  <span className="relative">
+    {feature.linkName}
+      <span
+          className="absolute -bottom-1 left-0 w-0 h-0.5 bg-blue-600 transition-all duration-300 group-hover:w-full"></span>
+  </span>
+                            <svg
+                                className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 "
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={2}
+                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                />
+                            </svg>
+                        </a> )}
+                    </div>
+
+
                     <button
                         onClick={onClose}
                         className="p-2 hover:bg-dark-bg rounded-full transition-colors"
                     >
-                        <X size={24} />
+                        <X size={24}/>
                     </button>
                 </div>
 
@@ -230,8 +260,8 @@ function AboutModal({feature, onClose}) {
                         <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
                             <h4 className="text-lg font-semibold text-red-400 mb-2">⚠️ 문제 상황</h4>
 
-                    {feature.details.map((item, index) => (
-                        <p className="text-gray-300">· {item.subtitle}</p>
+                            {feature.details.map((item, index) => (
+                                <p className="text-gray-300">· {item.subtitle}</p>
                         ))}
                         </div>
 

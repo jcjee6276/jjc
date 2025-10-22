@@ -57,7 +57,6 @@ const projects = [
             technicalDeepDive: [
                 '현 프로젝트 구조를 고려 하여 layers는 app, features, entities, shared 4개의 layer로 구성',
                 '도메인, 기능 별 Slice를 구성하고 Segment api , model, ui 생성',
-                'ui / business 분리를 위해 Container/Presentaition design pattern 도입',
             ],
             impact: '기능별 독립적인 폴더 구조로 유지보수성과 확장성 개선 \n비즈니스 로직(Container)과 UI(Presentation) 명확히 구분하여 관심사 분리를 통한 코드 가독성 향상 \n코드 재사용성 증대 및 Storybook 연동 용이',
         }
