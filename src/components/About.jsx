@@ -9,12 +9,13 @@ const features = [
         title: '성능 최적화',
         description: 'UI/Logic 분리, Vite 번들러 도입',
         detail: true,
+        link: '',
         details: [
             {
-                subtitle: "Container/Presentation + Compound 패턴 도입으로 UI/Logic 분리",
-                content: "React Query Custom Hook으로 데이터 로직을 캡슐화하고 Container/Presentation 패턴으로 비즈니스 로직과 UI 분리\n" +
-                    "Presentation 컴포넌트는 Compound 패턴으로 설계하여 서브 컴포넌트를 자유롭게 조합할 수 있도록 구현\n" +
-                    "Named Export를 통해 IDE의 자동완성과 타입 추론을 강화하고, 각 Presentation 컴포넌트를 독립적으로 Storybook 문서화\n",
+                subtitle: "UI/Logic 분리를 위해 Atomic Design + Data Fetching Layer 기반의 계층적 컴포넌트를 설계",
+                content: "React Query Custom Hook으로 데이터 로직을 캡슐화하고" +
+                    "Figma MCP를 사용하여 Atomic 단위로 UI를 Presentation Pattern으로 Code Generate 이후 Layout Layer에서 구조 정의 및 React query 상태에 맞게 조합\n" +
+                    "Named Export를 통해 IDE의 자동완성과 타입 추론을 강화하고, 각 Layout Layer 컴포넌트를 독립적으로 Storybook 문서화\n",
                 result: "· 컴포넌트 재 사용률 향상, Storybook 스토리 작성 시간 단축 및 러닝 커브 완화"
             },
             {
@@ -149,12 +150,12 @@ export default function About() {
                         {features.map((feature, index) => (
                             <motion.div
                                 key={index}
-                                initial={{ opacity: 0, y: 30 }}
+                                initial={{opacity: 0, y: 30}}
                                 onClick={() => setActiveModal(index)}
                                 onMouseEnter={() => setIsHovering(index)}
                                 onMouseLeave={() => setIsHovering(null)}
-                                animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-                                transition={{ duration: 0.6, delay: 0.6 + index * 0.1 }}
+                                animate={isInView ? {opacity: 1, y: 0} : {opacity: 0, y: 30}}
+                                transition={{duration: 0.6, delay: 0.6 + index * 0.1}}
                                 className="relative p-6 bg-dark-card border border-dark-border rounded-xl hover:border-blue-500/50 transition-all duration-300 overflow-hidden"
                             >
                                 {feature.detail && isHovering === index && (
@@ -168,16 +169,22 @@ export default function About() {
                                         </div>
                                     </motion.div>
                                 )}
-                                <div className="text-blue-500 mb-4">{feature.icon}</div>
+                                <div className='flex justify-between'>
+                                    <div className="text-blue-500 mb-4">{feature.icon}</div>
+                                    <div
+                                        className="flex px-2 text-center items-center py-1 bg-blue-500/20 text-blue-400 rounded-full text-xs font-semibold">
+                                        상세보기
+                                    </div>
+                                </div>
                                 <h4 className="text-xl font-bold mb-2">{feature.title}</h4>
                                 <p className="text-gray-400 text-sm">{feature.description}</p>
                             </motion.div>
-                                ))}
-                            </div>
-                            </motion.div>
-                            </div>
+                        ))}
+                    </div>
+                </motion.div>
+            </div>
             <AnimatePresence>
-                {activeModal !== null && (
+            {activeModal !== null && (
                     <AboutModal
                         feature={features[activeModal]}
                         onClose={()=> setActiveModal(null)}
