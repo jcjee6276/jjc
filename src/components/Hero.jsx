@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { ChevronDown, Github, Linkedin, Mail } from 'lucide-react'
+import { ChevronDown, Github, Linkedin, Mail, LucideStickyNote } from 'lucide-react'
 import { Link } from 'react-scroll'
 
 export default function Hero() {
@@ -106,6 +106,14 @@ export default function Hero() {
                         className="p-3 bg-dark-card hover:bg-gray-800 rounded-full transition-colors duration-200"
                     >
                         <Linkedin size={24}/>
+                    </a>
+                    <a
+                        href="https://www.notion.so/29480a7066de80a086edcc1607917fab"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="p-3 bg-dark-card hover:bg-gray-800 rounded-full transition-colors duration-200"
+                    >
+                        <LucideStickyNote size={24}/>
                     </a>
                 </motion.div>
 
