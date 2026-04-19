@@ -16,8 +16,9 @@ const ORIGIN_POS = new THREE.Vector3(-8, 5, 10);
 const ORIGIN_LOOK = new THREE.Vector3(0, 0, 0);
 const ZOOM_TARGET_POS = new THREE.Vector3(0, 0, 3);
 const ZOOM_TARGET_LOOK = new THREE.Vector3(0, 0.1, 0);
-const SCREEN_POS = [0, 0.15, 0.12];
-const SCREEN_SIZE = [0.33, 0.58]; // 화면 크기 (Three.js 단위)
+const SCREEN_POS = [0, 0.15, 0.08];
+const SCREEN_SIZE = [0.33, 0.62];
+const SCREEN_ROT = [-0.14, 0, 0]; // X축 기울기 (음수 = 윗부분 뒤로)
 
 // 화면 페이지: 'home' | 'info'
 function ScreenScene({ page, onNavigate }) {
@@ -87,7 +88,7 @@ function KioskScreen({ isZoomed }) {
   //   if (!isZoomed) return null;
 
   return (
-    <mesh position={SCREEN_POS}>
+    <mesh position={SCREEN_POS} rotation={SCREEN_ROT}>
       <planeGeometry args={SCREEN_SIZE} />
       <meshBasicMaterial>
         <RenderTexture attach="map" anisotropy={16}>
