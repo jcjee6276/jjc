@@ -1,6 +1,13 @@
 import { Suspense, useRef, useState, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useGLTF, OrbitControls, Environment } from "@react-three/drei";
+import {
+  useGLTF,
+  OrbitControls,
+  Environment,
+  RenderTexture,
+  PerspectiveCamera,
+  Text,
+} from "@react-three/drei";
 import * as THREE from "three";
 
 // state: 'idle' | 'zooming' | 'zoomed' | 'resetting'
@@ -9,8 +16,89 @@ const ORIGIN_POS = new THREE.Vector3(-8, 5, 10);
 const ORIGIN_LOOK = new THREE.Vector3(0, 0, 0);
 const ZOOM_TARGET_POS = new THREE.Vector3(0, 0, 3);
 const ZOOM_TARGET_LOOK = new THREE.Vector3(0, 0.1, 0);
+const SCREEN_POS = [0, 0.15, 0.12];
+const SCREEN_SIZE = [0.33, 0.58]; // 화면 크기 (Three.js 단위)
 
-function Model({ stateRef }) {
+// 화면 페이지: 'home' | 'info'
+function ScreenScene({ page, onNavigate }) {
+  return (
+    <>
+      <PerspectiveCamera makeDefault position={[0, 0, 5]} />
+      <color attach="background" args={["#0d1117"]} />
+
+      <>
+        <Text
+          position={[0, 1.4, 0]}
+          fontSize={0.45}
+          color="#ffffff"
+          anchorX="center"
+          anchorY="middle"
+          letterSpacing={0.08}
+        >
+          WELCOME
+        </Text>
+        <Text
+          position={[0, 0.7, 0]}
+          fontSize={0.22}
+          color="#94a3b8"
+          anchorX="center"
+          anchorY="middle"
+        >
+          전지창 포트폴리오
+        </Text>
+
+        {/* 시작하기 버튼 */}
+        <mesh position={[0, -0.2, 0]} onClick={() => onNavigate("info")}>
+          <planeGeometry args={[2.6, 0.65]} />
+          <meshBasicMaterial color="#1e40af" />
+        </mesh>
+        <Text
+          position={[0, -0.2, 0.01]}
+          fontSize={0.28}
+          color="#ffffff"
+          anchorX="center"
+          anchorY="middle"
+        >
+          시작하기
+        </Text>
+
+        {/* 정보 보기 버튼 */}
+        <mesh position={[0, -1.1, 0]} onClick={() => onNavigate("info")}>
+          <planeGeometry args={[2.6, 0.65]} />
+          <meshBasicMaterial color="#1f2937" />
+        </mesh>
+        <Text
+          position={[0, -1.1, 0.01]}
+          fontSize={0.28}
+          color="#cbd5e1"
+          anchorX="center"
+          anchorY="middle"
+        >
+          정보 보기
+        </Text>
+      </>
+    </>
+  );
+}
+
+function KioskScreen({ isZoomed }) {
+  const [page, setPage] = useState("home");
+
+  //   if (!isZoomed) return null;
+
+  return (
+    <mesh position={SCREEN_POS}>
+      <planeGeometry args={SCREEN_SIZE} />
+      <meshBasicMaterial>
+        <RenderTexture attach="map" anisotropy={16}>
+          <ScreenScene page={page} onNavigate={setPage} />
+        </RenderTexture>
+      </meshBasicMaterial>
+    </mesh>
+  );
+}
+
+function Model({ stateRef, isZoomed }) {
   const { scene } = useGLTF("/kiosk.glb");
   const groupRef = useRef();
   const directionRef = useRef(1);
@@ -35,7 +123,6 @@ function Model({ stateRef }) {
 
     if (state === "zoomed") return;
 
-    // idle: oscillate
     angleRef.current += 0.008 * directionRef.current;
     if (angleRef.current >= Math.PI / 8) directionRef.current = -1;
     if (angleRef.current <= -Math.PI / 2) directionRef.current = 1;
@@ -53,11 +140,12 @@ function Model({ stateRef }) {
   return (
     <group ref={groupRef} onClick={handleClick}>
       <primitive object={scene} />
+      <KioskScreen isZoomed={isZoomed} />
     </group>
   );
 }
 
-function CameraZoom({ stateRef, controlsRef }) {
+function CameraZoom({ stateRef, controlsRef, setIsZoomed }) {
   const { camera } = useThree();
 
   useFrame(() => {
@@ -69,12 +157,14 @@ function CameraZoom({ stateRef, controlsRef }) {
       camera.lookAt(ZOOM_TARGET_LOOK);
       if (camera.position.distanceTo(ZOOM_TARGET_POS) < 0.05) {
         stateRef.current = "zoomed";
+        setIsZoomed(true);
       }
       return;
     }
 
     if (state === "resetting") {
       if (controlsRef.current) controlsRef.current.enabled = false;
+      setIsZoomed(false);
       camera.position.lerp(ORIGIN_POS, 0.05);
       camera.lookAt(ORIGIN_LOOK);
       if (camera.position.distanceTo(ORIGIN_POS) < 0.1) {
@@ -113,6 +203,7 @@ function KoreanClock() {
 function Home() {
   const stateRef = useRef("idle");
   const controlsRef = useRef();
+  const [isZoomed, setIsZoomed] = useState(false);
 
   return (
     <div
@@ -178,10 +269,14 @@ function Home() {
         <ambientLight intensity={0.5} />
         <directionalLight position={[10, 10, 5]} intensity={1} />
         <Suspense fallback={null}>
-          <Model stateRef={stateRef} />
+          <Model stateRef={stateRef} isZoomed={isZoomed} />
           <Environment preset="city" />
         </Suspense>
-        <CameraZoom stateRef={stateRef} controlsRef={controlsRef} />
+        <CameraZoom
+          stateRef={stateRef}
+          controlsRef={controlsRef}
+          setIsZoomed={setIsZoomed}
+        />
         <OrbitControls ref={controlsRef} enablePan={true} />
       </Canvas>
     </div>
