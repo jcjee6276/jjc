@@ -11,11 +11,12 @@ const ORIGIN_LOOK = new THREE.Vector3(0, 0, 0);
 const ZOOM_TARGET_POS = new THREE.Vector3(0, 0, 3);
 const ZOOM_TARGET_LOOK = new THREE.Vector3(0, 0.1, 0);
 
-function Model({ stateRef }) {
+function Model({ stateRef, isZoomed }) {
   const { scene } = useGLTF("/kiosk.glb");
   const groupRef = useRef();
   const directionRef = useRef(1);
   const angleRef = useRef(0);
+  const kioskRef = useRef();
 
   useFrame(() => {
     const state = stateRef.current;
@@ -53,12 +54,12 @@ function Model({ stateRef }) {
   return (
     <group ref={groupRef} onClick={handleClick}>
       <primitive object={scene} />
-      <KioskScreen />
+      <KioskScreen isZoomed={isZoomed} stateRef={stateRef} />
     </group>
   );
 }
 
-function CameraZoom({ stateRef, controlsRef }) {
+function CameraZoom({ stateRef, controlsRef, setIsZoomed, isZoomed }) {
   const { camera } = useThree();
 
   useFrame(() => {
@@ -70,6 +71,7 @@ function CameraZoom({ stateRef, controlsRef }) {
       camera.lookAt(ZOOM_TARGET_LOOK);
       if (camera.position.distanceTo(ZOOM_TARGET_POS) < 0.05) {
         stateRef.current = "zoomed";
+        setIsZoomed(() => true);
       }
       return;
     }
@@ -80,6 +82,7 @@ function CameraZoom({ stateRef, controlsRef }) {
       camera.lookAt(ORIGIN_LOOK);
       if (camera.position.distanceTo(ORIGIN_POS) < 0.1) {
         stateRef.current = "idle";
+        setIsZoomed(false);
         if (controlsRef.current) controlsRef.current.enabled = true;
       }
     }
@@ -91,6 +94,8 @@ function CameraZoom({ stateRef, controlsRef }) {
 function Home() {
   const stateRef = useRef("idle");
   const controlsRef = useRef();
+  const preventResetRef = useRef(false);
+  const [isZoomed, setIsZoomed] = useState(false);
 
   return (
     <div
@@ -145,6 +150,10 @@ function Home() {
       <Canvas
         camera={{ position: [-8, 5, 10], fov: 15 }}
         onPointerMissed={() => {
+          if (preventResetRef.current) {
+            preventResetRef.current = false;
+            return;
+          }
           const state = stateRef.current;
           if (state === "zooming" || state === "zoomed") {
             stateRef.current = "resetting";
@@ -154,10 +163,15 @@ function Home() {
         <ambientLight intensity={0.5} />
         <directionalLight position={[10, 10, 5]} intensity={1} />
         <Suspense fallback={null}>
-          <Model stateRef={stateRef} />
+          <Model stateRef={stateRef} isZoomed={isZoomed} />
           <Environment preset="city" />
         </Suspense>
-        <CameraZoom stateRef={stateRef} controlsRef={controlsRef} />
+        <CameraZoom
+          stateRef={stateRef}
+          isZoomed={isZoomed}
+          controlsRef={controlsRef}
+          setIsZoomed={setIsZoomed}
+        />
         <OrbitControls ref={controlsRef} enablePan={true} />
       </Canvas>
     </div>

@@ -1,123 +1,131 @@
 import { useState } from "react";
-import { RenderTexture, PerspectiveCamera, Text } from "@react-three/drei";
+import { Html } from "@react-three/drei";
+import { FixedBottomCTA } from "../shared/FixedBottomCTA";
 
 const SCREEN_POS = [0, 0.15, 0.08];
-const SCREEN_SIZE = [0.33, 0.62];
 const SCREEN_ROT = [-0.14, 0, 0];
 
-function ScreenScene({ page, onNavigate }) {
+// Html transform 기준 픽셀 크기 (distanceFactor로 스케일 조정)
+const SCREEN_WIDTH = 330;
+const SCREEN_HEIGHT = 620;
+
+function HomePage({ onNavigate }) {
   return (
     <>
-      <PerspectiveCamera makeDefault position={[0, 0, 5]} />
-      <color attach="background" args={["#0d1117"]} />
-
-      {page === "home" && (
-        <>
-          <Text
-            position={[0, 1.4, 0]}
-            fontSize={0.45}
-            color="#ffffff"
-            anchorX="center"
-            anchorY="middle"
-            letterSpacing={0.08}
-          >
-            WELCOME
-          </Text>
-          <Text
-            position={[0, 0.7, 0]}
-            fontSize={0.22}
-            color="#94a3b8"
-            anchorX="center"
-            anchorY="middle"
-          >
-            전지창 포트폴리오
-          </Text>
-
-          <mesh position={[0, -0.2, 0]} onClick={() => onNavigate("info")}>
-            <planeGeometry args={[2.6, 0.65]} />
-            <meshBasicMaterial color="#1e40af" />
-          </mesh>
-          <Text
-            position={[0, -0.2, 0.01]}
-            fontSize={0.28}
-            color="#ffffff"
-            anchorX="center"
-            anchorY="middle"
-          >
-            시작하기
-          </Text>
-
-          <mesh position={[0, -1.1, 0]} onClick={() => onNavigate("info")}>
-            <planeGeometry args={[2.6, 0.65]} />
-            <meshBasicMaterial color="#1f2937" />
-          </mesh>
-          <Text
-            position={[0, -1.1, 0.01]}
-            fontSize={0.28}
-            color="#cbd5e1"
-            anchorX="center"
-            anchorY="middle"
-          >
-            정보 보기
-          </Text>
-        </>
-      )}
-
-      {page === "info" && (
-        <>
-          <Text
-            position={[0, 1.4, 0]}
-            fontSize={0.38}
-            color="#ffffff"
-            anchorX="center"
-            anchorY="middle"
-            letterSpacing={0.05}
-          >
-            Frontend Engineer
-          </Text>
-          <Text
-            position={[0, 0.6, 0]}
-            fontSize={0.22}
-            color="#94a3b8"
-            anchorX="center"
-            anchorY="middle"
-            maxWidth={3}
-            textAlign="center"
-            lineHeight={1.5}
-          >
-            {"React · Three.js\nUI/UX · Web3D"}
-          </Text>
-
-          <mesh position={[0, -1.1, 0]} onClick={() => onNavigate("home")}>
-            <planeGeometry args={[2.6, 0.65]} />
-            <meshBasicMaterial color="#374151" />
-          </mesh>
-          <Text
-            position={[0, -1.1, 0.01]}
-            fontSize={0.28}
-            color="#cbd5e1"
-            anchorX="center"
-            anchorY="middle"
-          >
-            ← 돌아가기
-          </Text>
-        </>
-      )}
+      <p
+        style={{
+          fontSize: 28,
+          fontWeight: 700,
+          letterSpacing: "0.08em",
+          margin: 0,
+        }}
+      >
+        WELCOME
+      </p>
+      <p style={{ fontSize: 14, color: "#94a3b8", margin: "8px 0 0" }}>
+        전지창 포트폴리오
+      </p>
+      <div
+        style={{
+          marginTop: "auto",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          gap: 10,
+        }}
+      >
+        <FixedBottomCTA onClick={() => onNavigate("info")}>
+          시작하기
+        </FixedBottomCTA>
+        <FixedBottomCTA onClick={() => onNavigate("info")} bgColor="#1f2937">
+          정보 보기
+        </FixedBottomCTA>
+      </div>
     </>
   );
 }
 
-export function KioskScreen() {
+function InfoPage({ onNavigate }) {
+  return (
+    <>
+      <p
+        style={{
+          fontSize: 22,
+          fontWeight: 700,
+          letterSpacing: "0.05em",
+          margin: 0,
+        }}
+      >
+        Frontend Engineer
+      </p>
+      <p
+        style={{
+          fontSize: 14,
+          color: "#94a3b8",
+          margin: "12px 0 0",
+          lineHeight: 1.8,
+          textAlign: "center",
+        }}
+      >
+        React · Three.js
+        <br />
+        UI/UX · Web3D
+      </p>
+      <div style={{ marginTop: "auto", width: "100%" }}>
+        <FixedBottomCTA onClick={() => onNavigate("home")} bgColor="#374151">
+          ← 돌아가기
+        </FixedBottomCTA>
+      </div>
+    </>
+  );
+}
+
+export function KioskScreen({ isZoomed, stateRef }) {
   const [page, setPage] = useState("home");
 
+  const handleScreenClick = () => {
+    if (
+      !isZoomed &&
+      (stateRef.current === "idle" || stateRef.current === "resetting")
+    ) {
+      stateRef.current = "zooming";
+    }
+  };
+
   return (
-    <mesh position={SCREEN_POS} rotation={SCREEN_ROT}>
-      <planeGeometry args={SCREEN_SIZE} />
-      <meshBasicMaterial>
-        <RenderTexture attach="map" anisotropy={16}>
-          <ScreenScene page={page} onNavigate={setPage} />
-        </RenderTexture>
-      </meshBasicMaterial>
-    </mesh>
+    <Html
+      position={SCREEN_POS}
+      rotation={SCREEN_ROT}
+      transform
+      occlude
+      distanceFactor={0.38}
+    >
+      <div
+        onClick={handleScreenClick}
+        style={{
+          width: SCREEN_WIDTH,
+          height: SCREEN_HEIGHT,
+          background: "#0d1117",
+          borderRadius: 8,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "flex-start",
+          padding: "40px 20px 20px",
+          boxSizing: "border-box",
+          color: "#ffffff",
+          fontFamily: "sans-serif",
+          overflow: "hidden",
+          cursor: isZoomed ? "default" : "pointer",
+        }}
+      >
+        {page === "home" && (
+          <HomePage onNavigate={isZoomed ? setPage : undefined} />
+        )}
+        {page === "info" && (
+          <InfoPage onNavigate={isZoomed ? setPage : undefined} />
+        )}
+      </div>
+    </Html>
   );
 }
