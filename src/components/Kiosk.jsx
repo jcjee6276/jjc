@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Html } from "@react-three/drei";
 import { FixedBottomCTA } from "../shared/FixedBottomCTA";
+import Test from "../pages/Test";
 
 const SCREEN_POS = [0, 0.15, 0.08];
 const SCREEN_ROT = [-0.14, 0, 0];
@@ -15,12 +16,24 @@ function HomePage({ onNavigate }) {
       <p
         style={{
           fontSize: 28,
+          color: "#3478f6",
           fontWeight: 700,
           letterSpacing: "0.08em",
           margin: 0,
         }}
       >
-        WELCOME
+        Frontend
+      </p>
+      <p
+        style={{
+          fontSize: 28,
+          color: "#3478f6",
+          fontWeight: 700,
+          letterSpacing: "0.08em",
+          margin: 0,
+        }}
+      >
+        Engineer
       </p>
       <p style={{ fontSize: 14, color: "#94a3b8", margin: "8px 0 0" }}>
         전지창 포트폴리오
@@ -105,13 +118,13 @@ export function KioskScreen({ isZoomed, stateRef }) {
         style={{
           width: SCREEN_WIDTH,
           height: SCREEN_HEIGHT,
-          background: "#0d1117",
+          background: "#F0F0F0",
           borderRadius: 8,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "flex-start",
-          padding: "40px 20px 20px",
+          padding: "0 0px 0px",
           boxSizing: "border-box",
           color: "#ffffff",
           fontFamily: "sans-serif",
@@ -123,7 +136,8 @@ export function KioskScreen({ isZoomed, stateRef }) {
           <HomePage onNavigate={isZoomed ? setPage : undefined} />
         )}
         {page === "info" && (
-          <InfoPage onNavigate={isZoomed ? setPage : undefined} />
+          // <InfoPage onNavigate={isZoomed ? setPage : undefined} />
+          <Test />
         )}
       </div>
     </Html>
