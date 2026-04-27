@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(gh pr create --title 'feat : /home 라우팅 추가' --body ' *)",
+      "Bash(find . -name \"*.glb\")",
+      "Bash(ls src/pages/)"
+    ]
+  }
+}
