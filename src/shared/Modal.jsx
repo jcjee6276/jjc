@@ -81,9 +81,7 @@ export function Modal({ open, onClose, title, children }) {
         </div>
 
         {/* 콘텐츠 */}
-        <div style={{ padding: "20px", overflowY: "auto" }}>
-          {children}
-        </div>
+        <div style={{ padding: "20px", overflowY: "auto" }}>{children}</div>
       </div>
 
       <style>{`
