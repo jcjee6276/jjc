@@ -11,6 +11,11 @@ const ORIGIN_LOOK = new THREE.Vector3(0, 0, 0);
 const ZOOM_TARGET_POS = new THREE.Vector3(0, 0, 3);
 const ZOOM_TARGET_LOOK = new THREE.Vector3(0, 0.1, 0);
 
+// function BackgroundModal() {
+// const { scene } = useGLTF("/background-compressed.glb");
+// return <primitive object={scene} scale={2} />;
+// }
+
 function Model({ stateRef, isZoomed }) {
   const { scene } = useGLTF("/kiosk.glb");
   const groupRef = useRef();
@@ -54,6 +59,7 @@ function Model({ stateRef, isZoomed }) {
   return (
     <group ref={groupRef} onClick={handleClick}>
       <primitive object={scene} />
+
       <KioskScreen isZoomed={isZoomed} stateRef={stateRef} />
     </group>
   );
@@ -149,13 +155,14 @@ function Home() {
 
       <Canvas
         camera={{ position: [-8, 5, 10], fov: 15 }}
-        onPointerMissed={() => {
-          if (preventResetRef.current) {
-            preventResetRef.current = false;
-            return;
-          }
+        dpr={Math.min(window.devicePixelRatio, 1.5)}
+        performance={{ min: 0.5 }}
+        onPointerMissed={(e) => {
+          // HTML 요소를 클릭한 게 아닐 때만 작동
+          if (e.target.tagName !== "CANVAS") return;
+
           const state = stateRef.current;
-          if (state === "zooming" || state === "zoomed") {
+          if (state === "zoomed") {
             stateRef.current = "resetting";
           }
         }}
@@ -163,6 +170,7 @@ function Home() {
         <ambientLight intensity={0.5} />
         <directionalLight position={[10, 10, 5]} intensity={1} />
         <Suspense fallback={null}>
+          {/* <BackgroundModal /> */}
           <Model stateRef={stateRef} isZoomed={isZoomed} />
           <Environment preset="city" />
         </Suspense>
