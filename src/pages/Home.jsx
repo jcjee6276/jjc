@@ -18,7 +18,7 @@ const ZOOM_TARGET_LOOK = new THREE.Vector3(0, 0.1, 0);
 // }
 
 function Model({ stateRef, isZoomed }) {
-  const { scene } = useGLTF("/kiosk.glb");
+  const { scene } = useGLTF("/kiosk-transformed.glb");
   const groupRef = useRef();
   const directionRef = useRef(1);
   const angleRef = useRef(0);
