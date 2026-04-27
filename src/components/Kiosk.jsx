@@ -1,23 +1,24 @@
 import { useState } from "react";
 import { Html } from "@react-three/drei";
 import { FixedBottomCTA } from "../shared/FixedBottomCTA";
-import Test from "../pages/Test";
+import Test from "../pages/About";
 
 const SCREEN_POS = [0, 0.15, 0.08];
 const SCREEN_ROT = [-0.14, 0, 0];
 
 // Html transform 기준 픽셀 크기 (distanceFactor로 스케일 조정)
-const SCREEN_WIDTH = 330;
-const SCREEN_HEIGHT = 620;
+const SCREEN_WIDTH = 340;
+const SCREEN_HEIGHT = 650;
 
 function HomePage({ onNavigate }) {
   return (
     <>
       <p
         style={{
+          marginTop: "10px",
           fontSize: 28,
-          color: "#3478f6",
-          fontWeight: 700,
+          color: "#64748B",
+          fontWeight: 900,
           letterSpacing: "0.08em",
           margin: 0,
         }}
@@ -27,8 +28,8 @@ function HomePage({ onNavigate }) {
       <p
         style={{
           fontSize: 28,
-          color: "#3478f6",
-          fontWeight: 700,
+          color: "#64748B",
+          fontWeight: 900,
           letterSpacing: "0.08em",
           margin: 0,
         }}
@@ -51,7 +52,7 @@ function HomePage({ onNavigate }) {
           시작하기
         </FixedBottomCTA>
         <FixedBottomCTA onClick={() => onNavigate("info")} bgColor="#1f2937">
-          정보 보기
+          프로젝트 보기
         </FixedBottomCTA>
       </div>
     </>
@@ -66,6 +67,7 @@ function InfoPage({ onNavigate }) {
           fontSize: 22,
           fontWeight: 700,
           letterSpacing: "0.05em",
+          olor: "#FF6600",
           margin: 0,
         }}
       >
