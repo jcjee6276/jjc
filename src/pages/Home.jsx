@@ -2,6 +2,7 @@ import { Suspense, useRef, useState, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, OrbitControls, Environment } from "@react-three/drei";
 import { KioskScreen } from "../components/Kiosk";
+import { LoadingScreen } from "../components/LoadingScreen";
 import * as THREE from "three";
 import { useNavigate } from "react-router-dom";
 
@@ -12,10 +13,10 @@ const ORIGIN_LOOK = new THREE.Vector3(0, 0, 0);
 const ZOOM_TARGET_POS = new THREE.Vector3(0, 0, 3);
 const ZOOM_TARGET_LOOK = new THREE.Vector3(0, 0.1, 0);
 
-// function BackgroundModal() {
-// const { scene } = useGLTF("/background-compressed.glb");
-// return <primitive object={scene} scale={2} />;
-// }
+function BackgroundModal() {
+  const { scene } = useGLTF("/background-transformed.glb");
+  return <primitive object={scene} scale={2} />;
+}
 
 function Model({ stateRef, isZoomed }) {
   const { scene } = useGLTF("/kiosk-transformed.glb");
@@ -114,6 +115,7 @@ function Home() {
         position: "relative",
       }}
     >
+      <LoadingScreen />
       <div
         style={{
           position: "absolute",
@@ -163,7 +165,7 @@ function Home() {
 
       <Canvas
         camera={{ position: [-8, 5, 10], fov: 15 }}
-        dpr={Math.min(window.devicePixelRatio, 1.5)}
+        dpr={(Math.min(window.devicePixelRatio), 1.5)}
         performance={{ min: 0.5 }}
         onPointerMissed={(e) => {
           // HTML 요소를 클릭한 게 아닐 때만 작동
