@@ -13,10 +13,27 @@ const ORIGIN_LOOK = new THREE.Vector3(0, 0, 0);
 const ZOOM_TARGET_POS = new THREE.Vector3(0, 0, 3);
 const ZOOM_TARGET_LOOK = new THREE.Vector3(0, 0.1, 0);
 
-function BackgroundModal() {
-  const { scene } = useGLTF("/background-transformed.glb");
-  return <primitive object={scene} scale={2} />;
+// function BackgroundModal() {
+//   const { scene } = useGLTF("/background-transformed.glb");
+//   return <primitive object={scene} scale={2} />;
+// }
+
+export function BackgroundModal(props) {
+  const { nodes, materials } = useGLTF("/background-transformed.glb");
+  return (
+    <group {...props} dispose={null}>
+      <mesh
+        scale={2}
+        geometry={nodes.input.geometry}
+        material={materials.material_0}
+        rotation={[Math.PI / 2, 0, 1.5]}
+        position={[0.7, 0.1, -0.7]}
+      />
+    </group>
+  );
 }
+
+useGLTF.preload("/background-transformed.glb");
 
 function Model({ stateRef, isZoomed }) {
   const { scene } = useGLTF("/kiosk-transformed.glb");
@@ -44,10 +61,10 @@ function Model({ stateRef, isZoomed }) {
 
     if (state === "zoomed") return;
 
-    angleRef.current += 0.008 * directionRef.current;
-    if (angleRef.current >= Math.PI / 8) directionRef.current = -1;
-    if (angleRef.current <= -Math.PI / 2) directionRef.current = 1;
-    groupRef.current.rotation.y = angleRef.current;
+    // angleRef.current += 0.008 * directionRef.current;
+    // if (angleRef.current >= Math.PI / 8) directionRef.current = -1;
+    // if (angleRef.current <= -Math.PI / 2) directionRef.current = 1;
+    // groupRef.current.rotation.y = angleRef.current;
   });
 
   const handleClick = (e) => {
@@ -180,7 +197,7 @@ function Home() {
         <ambientLight intensity={0.5} />
         <directionalLight position={[10, 10, 5]} intensity={1} />
         <Suspense fallback={null}>
-          {/* <BackgroundModal /> */}
+          <BackgroundModal />
           <Model stateRef={stateRef} isZoomed={isZoomed} />
           <Environment preset="city" />
         </Suspense>
