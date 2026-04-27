@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Html } from "@react-three/drei";
 import { FixedBottomCTA } from "../shared/FixedBottomCTA";
-import Test from "../pages/About";
+import About from "../pages/About";
 
 const SCREEN_POS = [0, 0.15, 0.08];
 const SCREEN_ROT = [-0.14, 0, 0];
@@ -101,7 +101,7 @@ export function KioskScreen({ isZoomed, stateRef }) {
         {page === "home" && (
           <HomePage onNavigate={isZoomed ? setPage : undefined} />
         )}
-        {page === "info" && <Test />}
+        {page === "info" && <About />}
       </div>
     </Html>
   );

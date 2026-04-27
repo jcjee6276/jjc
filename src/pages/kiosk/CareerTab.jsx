@@ -123,7 +123,9 @@ export default function CareerTab() {
         padding: "10px",
         display: "flex",
         flexDirection: "column",
-        // overflowY: "scroll",
+        overflowY: "auto",
+        flex: 1,
+        height: "100%",
         gap: 6,
       }}
     >

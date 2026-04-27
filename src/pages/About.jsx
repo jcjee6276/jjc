@@ -1,16 +1,16 @@
 /*
  * @Author: 전지창
  * @Date: 2026-04-23 16:45:00
- * @LastEditTime: 2026-04-24 17:38:48
+ * @LastEditTime: 2026-04-27 21:22:55
  * @LastEditors: 전지창
  * @Description:
  */
 import { useState } from "react";
 import { Tab, TabItem } from "../shared/Tab";
-import IntroTab from "./test/IntroTab";
-import CareerTab from "./test/CareerTab";
-import ProjectTab from "./test/ProjectTab";
-import SkillTab from "./test/SkillTab";
+import IntroTab from "./kiosk/IntroTab";
+import CareerTab from "./kiosk/CareerTab";
+import ProjectTab from "./kiosk/ProjectTab";
+import SkillTab from "./kiosk/SkillTab";
 
 const TABS = [
   { label: "소개", component: <IntroTab /> },
@@ -19,7 +19,7 @@ const TABS = [
   { label: "기술", component: <SkillTab /> },
 ];
 
-function Test() {
+function About() {
   const [selected, setSelected] = useState(TABS[0].label);
 
   const activeTab = TABS.find((t) => t.label === selected);
@@ -43,4 +43,4 @@ function Test() {
   );
 }
 
-export default Test;
+export default About;

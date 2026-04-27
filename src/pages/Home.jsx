@@ -3,6 +3,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useGLTF, OrbitControls, Environment } from "@react-three/drei";
 import { KioskScreen } from "../components/Kiosk";
 import * as THREE from "three";
+import { useNavigate } from "react-router-dom";
 
 // state: 'idle' | 'zooming' | 'zoomed' | 'resetting'
 
@@ -100,7 +101,7 @@ function CameraZoom({ stateRef, controlsRef, setIsZoomed, isZoomed }) {
 function Home() {
   const stateRef = useRef("idle");
   const controlsRef = useRef();
-  const preventResetRef = useRef(false);
+  const navigate = useNavigate();
   const [isZoomed, setIsZoomed] = useState(false);
 
   return (
@@ -143,14 +144,21 @@ function Home() {
         >
           Frontend Engineer
         </span>
-        <span
+        <div
+          onClick={() => navigate("/about")}
           style={{
-            fontSize: "0.8rem",
-            color: "#666",
-            letterSpacing: "0.03em",
-            marginTop: "0.2rem",
+            backgroundColor: "#000",
+            fontSize: "0.85rem",
+            textAlign: "center",
+            padding: "5px",
+            fontWeight: 500,
+            color: "#FFF",
+            letterSpacing: "0.04em",
+            cursor: "pointer",
           }}
-        ></span>
+        >
+          간단하게 보기
+        </div>
       </div>
 
       <Canvas
