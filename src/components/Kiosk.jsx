@@ -59,42 +59,6 @@ function HomePage({ onNavigate }) {
   );
 }
 
-function InfoPage({ onNavigate }) {
-  return (
-    <>
-      <p
-        style={{
-          fontSize: 22,
-          fontWeight: 700,
-          letterSpacing: "0.05em",
-          olor: "#FF6600",
-          margin: 0,
-        }}
-      >
-        Frontend Engineer
-      </p>
-      <p
-        style={{
-          fontSize: 14,
-          color: "#94a3b8",
-          margin: "12px 0 0",
-          lineHeight: 1.8,
-          textAlign: "center",
-        }}
-      >
-        React · Three.js
-        <br />
-        UI/UX · Web3D
-      </p>
-      <div style={{ marginTop: "auto", width: "100%" }}>
-        <FixedBottomCTA onClick={() => onNavigate("home")} bgColor="#374151">
-          ← 돌아가기
-        </FixedBottomCTA>
-      </div>
-    </>
-  );
-}
-
 export function KioskScreen({ isZoomed, stateRef }) {
   const [page, setPage] = useState("home");
 
@@ -137,10 +101,7 @@ export function KioskScreen({ isZoomed, stateRef }) {
         {page === "home" && (
           <HomePage onNavigate={isZoomed ? setPage : undefined} />
         )}
-        {page === "info" && (
-          // <InfoPage onNavigate={isZoomed ? setPage : undefined} />
-          <Test />
-        )}
+        {page === "info" && <Test />}
       </div>
     </Html>
   );
