@@ -22,7 +22,7 @@ const CAREERS = [
     period: "2020.04 - 2022.10",
     role: "IT Backup Enginner",
     description:
-      "Next.js 기반 커머스 플랫폼 개발.\nTailwind CSS 도입 및 디자인 시스템 정립.\nVitest를 활용한 유닛 테스트 작성.",
+      "고객사 백업 인프라 구축 및 유지보수\n다양한 백업 솔루션 (Commvault, Veeam, TSM)등 주기적인 백업 및 복구 테스트",
   },
 ];
 
