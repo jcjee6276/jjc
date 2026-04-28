@@ -4,6 +4,7 @@ import Typography from "../../shared/Typography";
 
 const CAREERS = [
   {
+    id: 0,
     company: "아이엠티소프트",
     period: "2024.04 - 2025.11",
     role: "Frontend Developer",
@@ -11,6 +12,7 @@ const CAREERS = [
       "• 키오스크 및 포스 프로그램 개발 및 유지보수\n• 아워홈 물류 키오스크 리드 개발\n• 안드로이드 포스 개발\n• 써브웨이 키오스크 유지 보수 및 추가 개발\n• 파파이스 키오스크 유지 보수 및 추가 개발\n• DIT 식수 시스템 개발",
   },
   {
+    id: 1,
     company: "밀버스",
     period: "2023.09 - 2023.11",
     role: "Backend Enginner",
@@ -18,6 +20,7 @@ const CAREERS = [
       "• 외부 서버에서 데이터를 받아 가공하고 전송하는 중계 서버 개발\n• Apache Airflow를 활용하여 자동화 파이프라인 구축",
   },
   {
+    id: 2,
     company: "큐로이드",
     period: "2020.04 - 2022.10",
     role: "IT Backup Enginner",
@@ -26,9 +29,7 @@ const CAREERS = [
   },
 ];
 
-function ListCard({ company, period, role, description }) {
-  const [open, setOpen] = useState(false);
-
+function ListCard({ company, period, role, description, isOpen, onToggle }) {
   return (
     <div
       style={{
@@ -41,7 +42,7 @@ function ListCard({ company, period, role, description }) {
     >
       {/* 헤더 */}
       <button
-        onClick={() => setOpen((prev) => !prev)}
+        onClick={onToggle}
         style={{
           width: "100%",
           display: "flex",
@@ -69,7 +70,7 @@ function ListCard({ company, period, role, description }) {
           color="#9ca3af"
           style={{
             flexShrink: 0,
-            transform: open ? "rotate(180deg)" : "rotate(0deg)",
+            transform: isOpen ? "rotate(180deg)" : "rotate(0deg)",
             transition: "transform 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
           }}
         />
@@ -78,7 +79,7 @@ function ListCard({ company, period, role, description }) {
       {/* 상세 내용 */}
       <div
         style={{
-          maxHeight: open ? 300 : 0,
+          maxHeight: isOpen ? 300 : 0,
           overflow: "hidden",
           transition: "max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
         }}
@@ -117,6 +118,11 @@ function ListCard({ company, period, role, description }) {
 }
 
 export default function CareerTab() {
+  const [openId, setOpenId] = useState(null);
+
+  const handleToggle = (id) => {
+    setOpenId((prev) => (prev === id ? null : id));
+  };
   return (
     <div
       style={{
@@ -130,7 +136,12 @@ export default function CareerTab() {
       }}
     >
       {CAREERS.map((career) => (
-        <ListCard key={career.company} {...career} />
+        <ListCard
+          key={career.company}
+          {...career}
+          isOpen={openId === career.id}
+          onToggle={() => handleToggle(career.id)}
+        />
       ))}
     </div>
   );
