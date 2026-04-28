@@ -1,7 +1,7 @@
 /*
  * @Author: 전지창
  * @Date: 2026-04-24 14:54:14
- * @LastEditTime: 2026-04-27 19:50:50
+ * @LastEditTime: 2026-04-28 14:07:19
  * @LastEditors: 전지창
  * @Description: 프로젝트
  */
@@ -53,7 +53,7 @@ const PROJECTS = [
       "Windows / Android 두 가지 플랫폼에서 사용가능한 POS 시스템 개발",
     subTitle: "프로젝트 내용",
     detail:
-      "- 후불모드 화면 개발 및 기능 개발\n- API 설계 및 화면 마크업\n- 결제 및 현금영수증 기능 개발",
+      "- 후불모드 화면 개발 및 기능 개발\n- API 설계 및 화면 마크업\n- 결제 및 현금영수증 기능 개발\n- 메뉴 옵션 기능 개발\n- 바코드 연동 개발",
     // problem: "문제 상황",
     // problemDetail: "개발 기간이 늘어날수록 기존 레거시 폴더 구조로는 ",
   },

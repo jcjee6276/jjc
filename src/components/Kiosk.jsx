@@ -76,7 +76,7 @@ export function KioskScreen({ isZoomed, stateRef }) {
       position={SCREEN_POS}
       rotation={SCREEN_ROT}
       transform
-      occlude
+      // occlude
       distanceFactor={0.38}
     >
       <div
