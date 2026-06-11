@@ -1,6 +1,6 @@
-import { Suspense, useRef, useState, useEffect } from "react";
+import { Suspense, useMemo, useRef, useState, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useGLTF, OrbitControls, Environment, Html } from "@react-three/drei";
+import { useGLTF, OrbitControls, Environment } from "@react-three/drei";
 import { KioskScreen } from "../components/Kiosk";
 import { LoadingScreen } from "../components/LoadingScreen";
 import * as THREE from "three";
@@ -45,76 +45,84 @@ const HINT_Z = Math.cos(HINT_ANGLE) * HINT_RADIUS;
 const HINT_ARROW_ROT = Math.atan2(-HINT_X, HINT_Z);
 
 function ClickHint({ stateRef }) {
-  const wrapperRef = useRef();
+  const hintRef = useRef();
+  const arrowRef = useRef();
+  const visibleRef = useRef(true);
+  const labelTexture = useMemo(() => {
+    const canvas = document.createElement("canvas");
+    canvas.width = 512;
+    canvas.height = 192;
+    const context = canvas.getContext("2d");
 
-  // stateRef는 리렌더를 일으키지 않으므로 매 프레임 DOM 스타일로 표시 여부 갱신
-  useFrame(() => {
-    if (!wrapperRef.current) return;
+    context.shadowColor = "rgba(0, 0, 0, 0.15)";
+    context.shadowBlur = 12;
+    context.shadowOffsetY = 4;
+    context.fillStyle = "rgba(255, 255, 255, 0.85)";
+    context.beginPath();
+    context.roundRect(12, 20, 488, 152, 76);
+    context.fill();
+
+    context.shadowColor = "transparent";
+    context.fillStyle = "#1a1a1a";
+    context.font = "700 78px sans-serif";
+    context.textAlign = "center";
+    context.textBaseline = "middle";
+    context.fillText("CLICK", 256, 99);
+
+    const texture = new THREE.CanvasTexture(canvas);
+    texture.colorSpace = THREE.SRGBColorSpace;
+    texture.anisotropy = 8;
+    return texture;
+  }, []);
+
+  useEffect(() => () => labelTexture.dispose(), [labelTexture]);
+
+  useFrame(({ clock }) => {
     const idle =
       stateRef.current === "idle" || stateRef.current === "resetting";
-    wrapperRef.current.style.opacity = idle ? "1" : "0";
+
+    if (idle !== visibleRef.current) {
+      visibleRef.current = idle;
+      if (hintRef.current) hintRef.current.visible = idle;
+    }
+
+    if (idle && arrowRef.current) {
+      const bounce = (Math.sin(clock.elapsedTime * 4.8) + 1) * 0.06;
+      arrowRef.current.position.y = 0.18 + bounce;
+    }
   });
 
   return (
-    <Html
-      position={[HINT_X, HINT_FLOOR_Y, HINT_Z]}
-      rotation={[-Math.PI / 2, 0, 0]}
-      transform
-      zIndexRange={[5, 0]}
-      distanceFactor={1.6}
-      style={{ pointerEvents: "none" }}
+    <group
+      ref={hintRef}
+      position={[HINT_X, HINT_FLOOR_Y + 0.012, HINT_Z]}
+      rotation={[-Math.PI / 2, 0, HINT_ARROW_ROT]}
     >
-      <div
-        ref={wrapperRef}
-        style={{
-          pointerEvents: "none",
-          transition: "opacity 0.3s ease",
-          userSelect: "none",
-          transform: `rotate(${HINT_ARROW_ROT}rad)`,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "6px",
-        }}
-      >
-        <style>{`
-          @keyframes click-hint-slide {
-            0%, 100% { transform: translateY(0); opacity: 1; }
-            50% { transform: translateY(-22px); opacity: 0.6; }
-          }
-        `}</style>
-        <svg
-          width="90"
-          height="90"
-          viewBox="0 0 24 24"
-          fill="none"
-          style={{ animation: "click-hint-slide 1.3s ease-in-out infinite" }}
-        >
-          <path
-            d="M12 20V4m0 0l-7 7m7-7l7 7"
-            stroke="#1a1a1a"
-            strokeWidth="4.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        <span
-          style={{
-            fontSize: "48px",
-            fontWeight: 700,
-            color: "#1a1a1a",
-            background: "rgba(255, 255, 255, 0.85)",
-            padding: "8px 20px",
-            borderRadius: "999px",
-            letterSpacing: "0.04em",
-            whiteSpace: "nowrap",
-            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
-          }}
-        >
-          CLICK
-        </span>
-      </div>
-    </Html>
+      <mesh>
+        <planeGeometry args={[0.58, 0.22]} />
+        <meshBasicMaterial
+          map={labelTexture}
+          transparent
+          side={THREE.DoubleSide}
+          depthWrite={false}
+        />
+      </mesh>
+
+      <group ref={arrowRef} position={[0, 0.18, 0.002]}>
+        <mesh>
+          <planeGeometry args={[0.055, 0.26]} />
+          <meshBasicMaterial color="#1a1a1a" side={THREE.DoubleSide} />
+        </mesh>
+        <mesh position={[-0.07, 0.15, 0]} rotation={[0, 0, -0.72]}>
+          <planeGeometry args={[0.055, 0.2]} />
+          <meshBasicMaterial color="#1a1a1a" side={THREE.DoubleSide} />
+        </mesh>
+        <mesh position={[0.07, 0.15, 0]} rotation={[0, 0, 0.72]}>
+          <planeGeometry args={[0.055, 0.2]} />
+          <meshBasicMaterial color="#1a1a1a" side={THREE.DoubleSide} />
+        </mesh>
+      </group>
+    </group>
   );
 }
 
@@ -163,7 +171,6 @@ function Model({ stateRef, isZoomed }) {
       <primitive object={scene} />
 
       <KioskScreen isZoomed={isZoomed} stateRef={stateRef} />
-      <ClickHint stateRef={stateRef} />
     </group>
   );
 }
@@ -284,6 +291,7 @@ function Home() {
           <BackgroundModal />
           <Model stateRef={stateRef} isZoomed={isZoomed} />
           <Environment preset="city" />
+          <ClickHint stateRef={stateRef} />
         </Suspense>
         <CameraZoom
           stateRef={stateRef}
