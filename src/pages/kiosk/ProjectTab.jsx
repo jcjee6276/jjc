@@ -11,6 +11,15 @@ import Modal from "../../shared/Modal";
 
 const PROJECTS = [
   {
+    title: '통합 CLI Agent 시스템',
+    description: '여러 AI Agent CLI들을 하나의 플랫폼에서 제어 가능한 시스템',
+    subTitle: "프로젝트 내용",
+    detail: '- Claude Code, Codex, Gemini-CLI 통합\n- 에이전트별 인증 상태 확인, 작업 디렉토리 지정, 세션 생성, 종료 구현\n- 하나의 task에 각각의 agent에 역할을 부여하여 병렬 작업 기능 구현\n- 작업 버전 및 코드 변경 히스토리 기능 구현\n- 역할별 프롬프트 엔지니어링 기능 구현',
+    result: "영향",
+    resultDetail:'- 여러 에이전트를 하나의 플랫폼에서 제어함으로써 생산성 증가\n- 역할별 프롬프트 엔지니어링 설정 한 번으로 프로젝트, 에이전트에 쉽게 적용\n- task 기능으로 특정 작업에 대한 히스토리 관리 용이'
+
+  },
+  {
     title: "물류 키오스크 프로젝트 리딩",
     description: "물류센터 프로세스 처리 키오스크 개발",
     subTitle: "프로젝트 내용",
