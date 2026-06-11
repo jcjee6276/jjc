@@ -12,6 +12,7 @@ import App from "./App.jsx";
 import Home from "./pages/Home.jsx";
 import "./index.css";
 import About from "./pages/About.jsx";
+import CliDocs from "./pages/CliDocs.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -20,6 +21,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Route path="/home" element={<App />} />
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/cli-docs" element={<CliDocs />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
