@@ -1,6 +1,6 @@
 import { Suspense, useRef, useState, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useGLTF, OrbitControls, Environment } from "@react-three/drei";
+import { useGLTF, OrbitControls, Environment, Html } from "@react-three/drei";
 import { KioskScreen } from "../components/Kiosk";
 import { LoadingScreen } from "../components/LoadingScreen";
 import * as THREE from "three";
@@ -34,6 +34,89 @@ export function BackgroundModal(props) {
 }
 
 useGLTF.preload("/background-transformed.glb");
+
+// 키오스크 기준 힌트 위치: 120도 방향, 반경/바닥 높이
+const HINT_ANGLE = (0 * Math.PI) / 180;
+const HINT_RADIUS = 0.75;
+const HINT_FLOOR_Y = -0.5;
+const HINT_X = Math.sin(HINT_ANGLE) * HINT_RADIUS;
+const HINT_Z = Math.cos(HINT_ANGLE) * HINT_RADIUS;
+// 바닥에 눕힌 평면(html 기준 위쪽 = 월드 -z)에서 키오스크를 향하는 회전각
+const HINT_ARROW_ROT = Math.atan2(-HINT_X, HINT_Z);
+
+function ClickHint({ stateRef }) {
+  const wrapperRef = useRef();
+
+  // stateRef는 리렌더를 일으키지 않으므로 매 프레임 DOM 스타일로 표시 여부 갱신
+  useFrame(() => {
+    if (!wrapperRef.current) return;
+    const idle =
+      stateRef.current === "idle" || stateRef.current === "resetting";
+    wrapperRef.current.style.opacity = idle ? "1" : "0";
+  });
+
+  return (
+    <Html
+      position={[HINT_X, HINT_FLOOR_Y, HINT_Z]}
+      rotation={[-Math.PI / 2, 0, 0]}
+      transform
+      zIndexRange={[5, 0]}
+      distanceFactor={1.6}
+      style={{ pointerEvents: "none" }}
+    >
+      <div
+        ref={wrapperRef}
+        style={{
+          pointerEvents: "none",
+          transition: "opacity 0.3s ease",
+          userSelect: "none",
+          transform: `rotate(${HINT_ARROW_ROT}rad)`,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "6px",
+        }}
+      >
+        <style>{`
+          @keyframes click-hint-slide {
+            0%, 100% { transform: translateY(0); opacity: 1; }
+            50% { transform: translateY(-22px); opacity: 0.6; }
+          }
+        `}</style>
+        <svg
+          width="90"
+          height="90"
+          viewBox="0 0 24 24"
+          fill="none"
+          style={{ animation: "click-hint-slide 1.3s ease-in-out infinite" }}
+        >
+          <path
+            d="M12 20V4m0 0l-7 7m7-7l7 7"
+            stroke="#1a1a1a"
+            strokeWidth="4.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+        <span
+          style={{
+            fontSize: "48px",
+            fontWeight: 700,
+            color: "#1a1a1a",
+            background: "rgba(255, 255, 255, 0.85)",
+            padding: "8px 20px",
+            borderRadius: "999px",
+            letterSpacing: "0.04em",
+            whiteSpace: "nowrap",
+            boxShadow: "0 2px 8px rgba(0, 0, 0, 0.15)",
+          }}
+        >
+          CLICK
+        </span>
+      </div>
+    </Html>
+  );
+}
 
 function Model({ stateRef, isZoomed }) {
   const { scene } = useGLTF("/kiosk-transformed.glb");
@@ -80,6 +163,7 @@ function Model({ stateRef, isZoomed }) {
       <primitive object={scene} />
 
       <KioskScreen isZoomed={isZoomed} stateRef={stateRef} />
+      <ClickHint stateRef={stateRef} />
     </group>
   );
 }
