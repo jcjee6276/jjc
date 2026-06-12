@@ -288,9 +288,8 @@ export default function CliDocs() {
               npm에서 전역 설치 후 <InlineCode>jccli init</InlineCode> 한 번으로
               전체 프로젝트를 스캐폴딩하고 개발 서버를 띄울 수 있습니다.
             </p>
-            <CodeBlock title="terminal">{`npm install -g @jccli@integration-cli
-jccli init my-app
-cd my-app
+            <CodeBlock title="terminal">{`npm install -g @jcjeon/integration-cli
+jccli init
 jccli start`}</CodeBlock>
             <p>
               기본 포트는 웹 <InlineCode>3020</InlineCode>이며, 서버 실행 중 API 문서는{" "}
