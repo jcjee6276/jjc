@@ -42,7 +42,6 @@ const NAV_GROUPS = [
     label: "레퍼런스",
     items: [
       { id: "structure", title: "프로젝트 구조" },
-      { id: "scripts", title: "스크립트" },
       { id: "runtime", title: "런타임 경로" },
     ],
   },
@@ -432,19 +431,6 @@ jccli start`}</CodeBlock>
               agents, tasks, sessions, conversations, harness, changelog
               도메인으로 나뉩니다.
             </p>
-          </Section>
-
-          <Section id="scripts" title="스크립트">
-            <p>저장소 루트에서 실행하며, Turborepo가 각 워크스페이스의 스크립트를 실행합니다.</p>
-            <CodeBlock title="terminal">{`npm run dev          # 전체 개발 서버
-npm run build        # 빌드
-npm run lint         # 린트
-npm run test         # 테스트
-npm run format       # 포맷
-
-# 앱별 실행
-npm run dev --workspace=@ji/web
-npm run dev --workspace=@ji/server`}</CodeBlock>
           </Section>
 
           <Section id="runtime" title="런타임 경로">
