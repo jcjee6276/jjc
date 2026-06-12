@@ -8,7 +8,6 @@
 import { useState } from "react";
 import Typography from "../../shared/Typography";
 import Modal from "../../shared/Modal";
-import { useNavigate } from "react-router-dom";
 
 const PROJECTS = [
   {
@@ -83,7 +82,6 @@ const PROJECTS = [
 
 function ProjectCard({ title, description, dimmed, onClick }) {
   const [hovered, setHovered] = useState(false);
-  const navigate = useNavigate();
 
   return (
     <div
@@ -153,7 +151,6 @@ export default function ProjectTab() {
             {selectedProject?.docsPath && (
               <a
                 className="project-docs-link"
-                onClick={() => navigate("/cli-docs")}
                 href={selectedProject.docsPath}
                 target="_blank"
                 rel="noreferrer"
