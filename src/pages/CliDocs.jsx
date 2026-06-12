@@ -34,7 +34,6 @@ const NAV_GROUPS = [
   {
     label: "CLI",
     items: [
-      { id: "installation", title: "설치" },
       { id: "jccli-init", title: "jccli init" },
       { id: "jccli-check", title: "jccli check" },
     ],
@@ -289,14 +288,13 @@ export default function CliDocs() {
               npm에서 전역 설치 후 <InlineCode>jccli init</InlineCode> 한 번으로
               전체 프로젝트를 스캐폴딩하고 개발 서버를 띄울 수 있습니다.
             </p>
-            <CodeBlock title="terminal">{`npm install -g ji
+            <CodeBlock title="terminal">{`npm install -g @jccli@integration-cli
 jccli init my-app
 cd my-app
-npm run dev`}</CodeBlock>
+jccli start`}</CodeBlock>
             <p>
-              기본 포트는 웹 <InlineCode>3000</InlineCode>, 서버{" "}
-              <InlineCode>3001</InlineCode>이며, 서버 실행 중 API 문서는{" "}
-              <InlineCode>http://localhost:3001/docs</InlineCode>에서 확인할 수
+              기본 포트는 웹 <InlineCode>3020</InlineCode>이며, 서버 실행 중 API 문서는{" "}
+              <InlineCode>http://localhost:3020/docs</InlineCode>에서 확인할 수
               있습니다.
             </p>
           </Section>
@@ -345,7 +343,7 @@ npm run dev`}</CodeBlock>
                     ["Server", "NestJS 11, TypeScript, Socket.IO, TypeORM"],
                     ["Database", "better-sqlite3 기반 SQLite"],
                     ["CLI", "Commander, TypeScript"],
-                    ["Tests", "웹은 Vitest, 서버는 Jest"],
+                    ["Tests", "Vitest, Jest"],
                   ].map(([area, stack]) => (
                     <tr key={area}>
                       <td className="px-4 py-2.5 font-medium text-gray-900/75">
@@ -407,42 +405,7 @@ npm run dev`}</CodeBlock>
             </p>
           </Section>
 
-          <Section id="installation" title="설치">
-            <p>사전 요구사항:</p>
-            <ul className="list-disc space-y-1 pl-5">
-              <li>
-                Node.js <InlineCode>&gt;=20</InlineCode>
-              </li>
-              <li>
-                npm <InlineCode>10.9.7</InlineCode> (pinned)
-              </li>
-              <li>
-                전체 에이전트 기능을 사용하려면 Claude Code, Gemini CLI, Codex
-                CLI 설치 필요
-              </li>
-            </ul>
-            <CodeBlock title="terminal">{`# npm 전역 설치
-npm install -g ji
-
-# 또는 저장소 클론 후
-npm install`}</CodeBlock>
-          </Section>
-
-          <Section id="jccli-init" title="jccli init">
-            <p>
-              <InlineCode>jccli init [dir]</InlineCode>은 전체 프로젝트를
-              스캐폴딩하고, 의존성을 설치하고, <InlineCode>~/.ji</InlineCode>{" "}
-              런타임 폴더를 생성한 뒤 Claude Code · Gemini CLI · Codex 설치
-              여부를 검증합니다.
-            </p>
-            <CodeBlock title="terminal">{`jccli init my-app
-
-# 의존성 설치 생략
-jccli init --skip-install
-
-# 에이전트 검증 생략
-jccli init --skip-agents`}</CodeBlock>
-          </Section>
+          
 
           <Section id="jccli-check" title="jccli check">
             <p>
