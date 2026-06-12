@@ -2,7 +2,7 @@
  * @Author: 전지창
  * @Description: /cli-docs — JC-CLI(integration-cli) 문서 페이지 (라이트 전용)
  */
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Github, Menu, Terminal, X, ChevronRight } from "lucide-react";
 
@@ -34,7 +34,6 @@ const NAV_GROUPS = [
   {
     label: "CLI",
     items: [
-      { id: "jccli-init", title: "jccli init" },
       { id: "jccli-check", title: "jccli check" },
     ],
   },
@@ -120,26 +119,36 @@ function FeatureCard({ title, description, accent }) {
 export default function CliDocs() {
   const [activeId, setActiveId] = useState(ALL_IDS[0]);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const observerRef = useRef(null);
 
   // 스크롤 스파이
   useEffect(() => {
-    observerRef.current?.disconnect();
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((e) => e.isIntersecting)
-          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
-        if (visible.length > 0) setActiveId(visible[0].target.id);
-      },
-      { rootMargin: "-80px 0px -60% 0px" }
-    );
-    ALL_IDS.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-    observerRef.current = observer;
-    return () => observer.disconnect();
+    const updateActiveSection = () => {
+      const scrollPosition = window.scrollY + 96;
+      const isAtBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+
+      if (isAtBottom) {
+        setActiveId(ALL_IDS[ALL_IDS.length - 1]);
+        return;
+      }
+
+      let currentId = ALL_IDS[0];
+      for (const id of ALL_IDS) {
+        const section = document.getElementById(id);
+        if (!section || section.offsetTop > scrollPosition) break;
+        currentId = id;
+      }
+      setActiveId(currentId);
+    };
+
+    updateActiveSection();
+    window.addEventListener("scroll", updateActiveSection, { passive: true });
+    window.addEventListener("resize", updateActiveSection);
+
+    return () => {
+      window.removeEventListener("scroll", updateActiveSection);
+      window.removeEventListener("resize", updateActiveSection);
+    };
   }, []);
 
   const handleNavClick = (id) => {
