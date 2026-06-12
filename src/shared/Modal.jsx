@@ -61,7 +61,20 @@ export function Modal({ open, onClose, title, children }) {
             flexShrink: 0,
           }}
         >
-          <span style={{ fontSize: 16, fontWeight: 700, color: "#111" }}>
+          <span
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 10,
+              flex: 1,
+              minWidth: 0,
+              marginRight: 12,
+              fontSize: 16,
+              fontWeight: 700,
+              color: "#111",
+            }}
+          >
             {title}
           </span>
           <button
@@ -101,7 +114,7 @@ export function Modal({ open, onClose, title, children }) {
 Modal.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  title: PropTypes.string,
+  title: PropTypes.node,
   children: PropTypes.node,
 };
 

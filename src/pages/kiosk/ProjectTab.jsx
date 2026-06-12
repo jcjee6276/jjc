@@ -12,6 +12,7 @@ import Modal from "../../shared/Modal";
 const PROJECTS = [
   {
     title: '통합 CLI Agent 시스템',
+    docsPath: "/cli-docs",
     description: '여러 AI Agent CLI들을 하나의 플랫폼에서 제어 가능한 시스템',
     subTitle: "프로젝트 내용",
     detail: '- Claude Code, Codex, Gemini-CLI 통합\n- 에이전트별 인증 상태 확인, 작업 디렉토리 지정, 세션 생성, 종료 구현\n- 하나의 task에 각각의 agent에 역할을 부여하여 병렬 작업 기능 구현\n- 작업 버전 및 코드 변경 히스토리 기능 구현\n- 역할별 프롬프트 엔지니어링 기능 구현',
@@ -144,7 +145,29 @@ export default function ProjectTab() {
       <Modal
         open={!!selectedProject}
         onClose={() => setSelectedProject(null)}
-        title={selectedProject?.title}
+        title={
+          <>
+            <span>{selectedProject?.title}</span>
+            {selectedProject?.docsPath && (
+              <a
+                className="project-docs-link"
+                href={selectedProject.docsPath}
+                target="_blank"
+                rel="noreferrer"
+                style={{
+                  fontSize: 13,
+                  fontWeight: 500,
+                  color: "#2563eb",
+                  textDecoration: "none",
+                  position: "relative",
+                  paddingBottom: 2,
+                }}
+              >
+                문서 보러가기
+              </a>
+            )}
+          </>
+        }
       >
         <Typography as="span" size="md" weight="bold" color="#111">
           {selectedProject?.subTitle}
@@ -195,6 +218,24 @@ export default function ProjectTab() {
           {selectedProject?.resultDetail}
         </Typography>
       </Modal>
+      <style>{`
+        .project-docs-link::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          height: 1px;
+          background: currentColor;
+          transform: scaleX(0);
+          transform-origin: left;
+          transition: transform 0.2s ease;
+        }
+
+        .project-docs-link:hover::after {
+          transform: scaleX(1);
+        }
+      `}</style>
     </>
   );
 }
